@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 
 const GAS_TRACKER_URL = 'https://etherscan.io/gastracker';
 
-const config = require('./config.json');
+const config = require('../../config.json');
 const DISCORD_WEBHOOK_URL = config.discordWebhookUrl;
 
 let previousGasPrice = null;
@@ -28,12 +28,11 @@ const sendDiscordMessage = async (gasPrice) => {
     const embed = new Discord.EmbedBuilder()
         .setTitle('Ethereum Gas Price Update')
         .setDescription(`The average gas price is now ${gasPrice}.`)
-        .setColor(0x00FFFF);
+        .setColor('#627eea');
 
     await webhook.send({
-        content: 'Webhook test',
-        username: 'some-username',
-        avatarURL: 'https://i.imgur.com/AfFp7pu.png',
+        username: 'Ethereum Gas Price Tracker',
+        avatarURL: 'https://media.discordapp.net/attachments/1099414543060451369/1099423465863401554/ZJZZK5B2ZNF25LYQHMUTBTOMLU.png',
         embeds: [embed],
     });
 };
@@ -46,4 +45,4 @@ const checkGasPrice = async () => {
     }
 };
 
-setInterval(checkGasPrice, 1000); // Check every minute
+setInterval(checkGasPrice, 10000); // Check every minute

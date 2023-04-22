@@ -1,49 +1,21 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const Discord = require('discord.js');
+const fs = require('fs');
+const path = require('path');
 
-const GAS_TRACKER_URL = 'https://etherscan.io/gastracker';
+const scriptsDir = path.join(__dirname, 'scripts');
 
-const config = require('./config.json');
-const DISCORD_WEBHOOK_URL = config.discordWebhookUrl;
+const runScripts = (dirPath) => {
+    fs.readdirSync(dirPath).forEach((file) => {
+        const filePath = path.join(dirPath, file);
 
-let previousGasPrice = null;
-
-const scrapeGasPrice = async () => {
-    try {
-        const response = await axios.get(GAS_TRACKER_URL);
-        const $ = cheerio.load(response.data);
-        const gasPrice = $('span[id="spanAvgPrice"]').text();
-        console.log(`Gas price is ${gasPrice}`)
-        return gasPrice.trim();
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-const sendDiscordMessage = async (gasPrice) => {
-    const webhook = new Discord.WebhookClient({
-        url: DISCORD_WEBHOOK_URL
-    });
-    const embed = new Discord.EmbedBuilder()
-        .setTitle('Ethereum Gas Price Update')
-        .setDescription(`The average gas price is now ${gasPrice}.`)
-        .setColor(0x00FFFF);
-
-    await webhook.send({
-        content: 'Webhook test',
-        username: 'some-username',
-        avatarURL: 'https://i.imgur.com/AfFp7pu.png',
-        embeds: [embed],
+        if (fs.statSync(filePath).isDirectory()) {
+            runScripts(filePath);
+        } else if (path.extname(file) === '.js') {
+            require(filePath);
+            console.log(`Executed ${filePath}`);
+        }
     });
 };
 
-const checkGasPrice = async () => {
-    const gasPrice = await scrapeGasPrice();
-    if (gasPrice !== previousGasPrice) {
-        await sendDiscordMessage(gasPrice);
-        previousGasPrice = gasPrice;
-    }
-};
+runScripts(scriptsDir);
 
-setInterval(checkGasPrice, 1000); // Check every minute
+console.log('App started');

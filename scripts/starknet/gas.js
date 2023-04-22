@@ -28,14 +28,13 @@ const sendDiscordMessage = async (gasPrice) => {
         url: DISCORD_WEBHOOK_URL
     });
     const embed = new Discord.EmbedBuilder()
-        .setTitle('Ethereum Gas Price Update')
+        .setTitle('StarkNet Gas Price Update')
         .setDescription(`The average gas price is now ${gasPrice}.`)
-        .setColor(0x00FFFF);
+        .setColor('#0c0c4f');
 
     await webhook.send({
-        content: 'Webhook test',
-        username: 'some-username',
-        avatarURL: 'https://i.imgur.com/AfFp7pu.png',
+        username: 'StarkNet Gas Price Tracker',
+        avatarURL: 'https://europe1.discourse-cdn.com/standard20/uploads/starknet1/original/2X/9/9c7af6ef31efbf89cfc6fcfdf1116100c37f4f4e.png',
         embeds: [embed],
     });
 };
@@ -48,4 +47,4 @@ const checkGasPrice = async () => {
     }
 };
 
-setInterval(checkGasPrice, 1000); // Check every minute
+setInterval(checkGasPrice, 10000); // Check every minute
