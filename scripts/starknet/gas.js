@@ -29,7 +29,8 @@ const scrapeGasPrice = async () => {
     console.log('Gas price 5 is ' + gasPrice5)
     const gasPrice6 = await page.$eval('#__next > div > div.max-w-7xl.mx-auto.px-4.sm\\:px-6.lg\\:px-8.pt-10.pb-20 > div.pb-16.pt-6 > dl > div:nth-child(2) > dd > div.flex.items-baseline > span:nth-child(6) > span.text-2xl.font-semibold.text-indigo-600.dark\\:text-darkPrimary', element => element.textContent.trim());
     console.log('Gas price 6 is ' + gasPrice6)
-    const gasPrice7 = await page.$eval('#__next > div > div.max-w-7xl.mx-auto.px-4.sm\\:px-6.lg\\:px-8.pt-10.pb-20 > div.pb-16.pt-6 > dl > div:nth-child(2) > dd > div.flex.items-baseline > span:nth-child(7) > span.text-2xl.font-semibold.text-indigo-600.dark\\:text-darkPrimary', element => element.textContent.trim());
+    // gasPrice7 sometimes is not available, set it to 0 if it is not available
+    const gasPrice7 = await page.$eval('#__next > div > div.max-w-7xl.mx-auto.px-4.sm\\:px-6.lg\\:px-8.pt-10.pb-20 > div.pb-16.pt-6 > dl > div:nth-child(2) > dd > div.flex.items-baseline > span:nth-child(7) > span.text-2xl.font-semibold.text-indigo-600.dark\\:text-darkPrimary', element => element.textContent.trim()).catch(() => 0);
     console.log('Gas price 7 is ' + gasPrice7)
     const gasPrice = gasPrice1 + gasPrice2 + gasPrice3 + gasPrice4 + gasPrice5 + gasPrice6 + gasPrice7;
     console.log(`Gas price is ${gasPrice}`);
