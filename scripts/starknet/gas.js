@@ -11,6 +11,7 @@ let previousGasPrice = null;
 const scrapeGasPrice = async () => {
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        executablePath: '/root/.cache/puppeteer/chrome/linux-1108766/chrome-linux/chrome',
         headless: false,
     })
     const page = await browser.newPage();
