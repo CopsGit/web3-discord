@@ -52,5 +52,4 @@ const checkGasPrice = async () => {
     }
 };
 
-checkGasPrice().then(() => console.log('Done!'));
-// setInterval(checkGasPrice, 100000); // Check every minute
+setInterval(checkGasPrice, 30000); // Check every minute
